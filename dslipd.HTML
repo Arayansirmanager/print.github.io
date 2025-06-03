@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Single Courier Slip </title>
+  <title>Courier Slip Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,42 +12,48 @@
 
     h2 {
       text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
     }
 
     .form-box {
       background: white;
       padding: 20px;
-      max-width: 500px;
-      margin: auto;
       border-radius: 10px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      width: 45%;
     }
 
     label {
+      font-weight: bold;
       display: block;
       margin-top: 10px;
-      font-weight: bold;
     }
 
     input, select {
       width: 100%;
       padding: 7px;
       margin-top: 5px;
-      border-radius: 5px;
       border: 1px solid #ccc;
+      border-radius: 5px;
     }
 
     .btn {
+      margin: 30px auto;
+      display: block;
       background-color: #007bff;
       color: white;
-      padding: 12px 20px;
+      padding: 12px 25px;
       border: none;
-      margin-top: 20px;
-      cursor: pointer;
-      border-radius: 5px;
       font-size: 16px;
-      display: block;
-      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
     }
 
     .btn:hover {
@@ -72,7 +78,6 @@
         top: 0;
         left: 0;
         width: 100%;
-        padding: 0;
       }
 
       .slip {
@@ -134,6 +139,7 @@
 		font-size: 17px;
 		}
 
+
       .logo {
         position: absolute;
         top: -2px;
@@ -148,20 +154,20 @@
 
 <h2>Courier Slip Generator</h2>
 
-<div class="form-box">
-  <label>Customer Name</label>
-  <input type="text" id="name">
-
-  <label>Customer Phone Number</label>
-  <input type="text" id="phone">
-
-  <label>Address Line 1</label>
-  <input type="text" id="addr1">
-
-  <label>State</label>
-  <select id="state">
-    <option value="">Select State</option>
-    <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+<div class="form-container">
+  <div class="form-box">
+    <h3>Slip 1</h3>
+    <label>Customer Name</label>
+    <input type="text" id="name1">
+    <label>Customer Phone</label>
+    <input type="text" id="phone1">
+    <label>Address Line 1</label>
+    <input type="text" id="addr1_1">
+   
+    <label>State</label>
+    <select id="state1">
+       <option value="">Select State</option>
+     <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
       <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
       <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
       <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
@@ -171,61 +177,66 @@
       <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
       <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
       <option>West Bengal</option><option>Delhi</option><option>Puducherry</option>
-  </select>
-
-  <label>PIN Code</label>
-  <input type="text" id="pin">
-
-  <label>Date</label>
-  <input type="date" id="date">
-
-  <button class="btn" onclick="generateSlip()">Print Slip</button>
+    </select>
+    <label>PIN Code</label>
+    <input type="text" id="pin1">
+    <label>Date</label>
+    <input type="date" id="date1">
+  </div>
 </div>
 
+<button class="btn" onclick="generateSlips()">Print Slips</button>
+
 <div id="printArea">
-  <div class="slip" id="slipContent"></div>
+  <div class="slip" id="slip1"></div>
 </div>
 
 <script>
   const myName = "Your Courier Company";
-  const myPhone = "8527511851";
-  const myPhoneS = "8743023792";
-  const logoPath = "https://www.pngmart.com/files/22/Book-Logo-PNG-Photo.png"; // ✅ Replace with full path or URL to your logo image
+  const myPhone = "9876543210";
+  const logoPath = "https://www.pngmart.com/files/22/Book-Logo-PNG-Photo.png"; // ✅ Change this to your actual logo image path
 
-  function generateSlip() {
-    const data = {
-      name: document.getElementById("name").value,
-      phone: document.getElementById("phone").value,
-      addr1: document.getElementById("addr1").value,
-      state: document.getElementById("state").value,
-      pin: document.getElementById("pin").value,
-      date: document.getElementById("date").value
+  function generateSlips() {
+    const slip1 = {
+      name: document.getElementById('name1').value,
+      phone: document.getElementById('phone1').value,
+      addr1: document.getElementById('addr1_1').value,
+  
+      state: document.getElementById('state1').value,
+      pin: document.getElementById('pin1').value,
+      date: document.getElementById('date1').value
     };
 
-    document.getElementById("slipContent").innerHTML = `
-      <img src="${logoPath}" class="logo" alt="Logo">
-      <h3>RECIVER'S DETAILS</h3>
+
+    document.getElementById('slip1').innerHTML = formatSlip(slip1);
+
+    document.getElementById('printArea').style.display = 'block';
+
+    setTimeout(() => {
+      window.print();
+      document.getElementById('printArea').style.display = 'none';
+    }, 300);
+  }
+
+  function formatSlip(data) {
+    return `
+      <img src="${logoPath}" alt="Logo" class="logo">
+     <h3>RECIVER'S DETAILS</h3>
       <p><strong>Customer Name:</strong> <h6>${data.name}</h6></p>
       <p><strong>Phone Number:</strong> <h6>${data.phone}</h6></p>
       <p><strong>Address:</strong> <h6>${data.addr1}</h6></p>
       <p><strong>State:</strong> <h6>${data.state}</h6></p>
       <h5><p>PIN Code: ${data.pin}</h5></p>
       <h3a><strong>FROM</strong></h3a>
-      <p><h4><strong>FUTURE EDUCATION SOLUTION</strong></h4></p>
+	  <p><h4><strong>FUTURE EDUCATION SOLUTION</strong></h4></p>
       <p><strong>ADV.KHALIQ SIR -- 8527511851:</strong></p>
 	  <p><strong>ADV.ARAV SIR -- 9220393554:</strong></p>
 	  <p><strong>Date:</strong> <h7>${data.date}</h7></p>
 	  <h5>AUTH. SING..........................................</h5>
     `;
-
-    document.getElementById("printArea").style.display = 'block';
-
-    setTimeout(() => {
-      window.print();
-      document.getElementById("printArea").style.display = 'none';
-    }, 300);
   }
 </script>
 
 </body>
 </html>
+
